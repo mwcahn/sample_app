@@ -18,6 +18,6 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       render 'new'
-    end # <= ends the if
-  end # <= ends the def create
-end # <= ends the class
+    end
+  end
+end

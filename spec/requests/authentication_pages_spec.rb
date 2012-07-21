@@ -1,11 +1,21 @@
 require 'spec_helper'
 
-describe "AuthenticationPages" do
-  describe "GET /authentication_pages" do
-    it "works! (now write some real specs)" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get authentication_pages_index_path
-      response.status.should be(200)
+describe "Authentication" do
+  
+  
+  
+  describe "signin" do
+    
+    
+    
+    describe "with valid information" do
+      
+    
+      
+      describe "followed by signout" do
+        before { click_link "Sign out" }
+        it { should have_link('Sign in') }
+      end
     end
   end
 end
