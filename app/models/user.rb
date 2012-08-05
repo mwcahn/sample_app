@@ -1,10 +1,12 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :email, :current_password, :password, :password_confirmation, 
+  attr_accessor :current_password
+  attr_accessible :name, :email, :password, :password_confirmation, :current_password
   has_secure_password
   has_many :microposts, dependent: :destroy
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
+  before_update :confirm_passwords
 
   has_many :microposts, dependent: :destroy
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
@@ -14,6 +16,13 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
   
+  def current_passwords
+    if current_password != password
+        errors.add(:current_password, "Does not match password") unless self.authenticate(current_password)
+    end
+  end
+
+
   def feed
     Micropost.from_users_followed_by(self)
   end
