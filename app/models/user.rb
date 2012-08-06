@@ -16,12 +16,9 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
   
-  def current_passwords
-    if current_password != password
-        errors.add(:current_password, "Does not match password") unless self.authenticate(current_password)
-    end
+  def confirm_passwords
+    errors.add(:current_password, "Does not match password") unless self.authenticate(current_password)
   end
-
 
   def feed
     Micropost.from_users_followed_by(self)
